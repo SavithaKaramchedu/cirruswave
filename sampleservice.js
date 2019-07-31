@@ -152,7 +152,84 @@ exports.deleteLead = function (req, res) {
     });
 
 
+};
+
+exports.recorddisplaylead = function (req, res) {
+
+    
+    var Sid= req.params.i;
+   
+   let query='select * from lead where id="'+Sid+'" '; 
+   
+   db.query(query, (err, result) => {
+       if (err) {
+           return res.status(500).send(err);
+       }
+       res.status(200).json(result);
+               
+   });
+  
+  };
+  
+
+exports.updateleadrecord = function (req, res) {
+    //console.log("updaterecord");
+    //let playerId = req.params.name;
+    var Sid = req.body.id;
+    //console.log(id);
+    var titl = req.body.title;
+    let compan = req.body.company;
+    let qualle = req.body.qualificationlevel;
+    let sourc = req.body.source;
+    let categor = req.body.category;
+    let firstnam = req.body.firstname;
+    let lastnam = req.body.lastname;
+    let priorit = req.body.priority;
+    let owne = req.body.owner;
+    let statu = req.body.status;
+
+
+    let query = "UPDATE `lead` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
+        "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
+    //console.log(query);
+    db.query(query, (err, result) => {
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.redirect('/home');
+    });
+};
+
+exports.deleteleadrecord = function (req, res) {
+
+    let Sid = req.params.i;
+    let deleteUserQuery = 'DELETE FROM lead WHERE id = "' + Sid + '"';
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
 }
+
+exports.deleteleaddisplay = function (req, res) {
+
+
+    var Sid = req.params.i;
+
+    let query = 'select * from lead where id="' + Sid + '" ';
+
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
 exports.getBackPage = function (req, res) {
     res.render('login.ejs', {
         title: "Welcome to Crm Application"
@@ -202,6 +279,76 @@ exports.ContactPage = function (req, res) {
 
 
     });
+};
+
+
+exports.recorddisplaycont = function (req, res) {
+
+    var Sid = req.params.i;
+    
+    let query = 'select * from contact where contactid = "' + Sid + '" ';
+    
+    db.query(query, (err, result) => {
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+exports.updatereccontact = function (req, res) {
+
+    var Sid = req.body.id;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let acc = req.body.accountname;
+    let jobtitle = req.body.jobtitle;
+    let funct = req.body.functionname;
+    let depart = req.body.department;
+    let phn = req.body.phone;
+    let cit = req.body.city;
+    let fa = req.body.fax;
+    let mob = req.body.mobile;
+    let eml = req.body.email;
+
+    let query = "UPDATE `contact` SET `firstname` = '" + firstname + "', `lastname` = '" + lastname + "',`accountname` = '" + acc + "', `jobtitle` = '" + jobtitle + "',`functionname` = '" + funct + "', `department` = '" + depart + "',`phone` = '" + phn + "',`city` = '" + cit + "',`fax` = '" + fa + "',`mobile` = '" + mob + "',`email` = '" + eml + "' WHERE `contactid` = '" + Sid + "'";
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.redirect('/home');
+    });
+};
+
+exports.deletecont = function (req, res) {
+
+    let Sid = req.params.i;
+    let deleteUserQuery = 'DELETE FROM contact WHERE contactid = "' + Sid + '"';
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+
+}
+
+exports.deletedisplaycont = function (req, res) {
+
+    var Sid = req.params.i;
+    let query = 'select * from contact where contactid="' + Sid + '" ';
+    db.query(query, (err, result) => {
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
 };
 exports.addAccountPage = function (req, res) {
     let message = '';
@@ -256,11 +403,88 @@ exports.getAccountPage = function (req, res) {
 
     });
 };
+
+exports.updateaccount = function (req, res) {
+    //console.log("updaterecord");
+    //let playerId = req.params.name;
+    var Sid= req.body.id;
+    let nam = req.body.name;
+    let prosp = req.body.prospect;
+    let parentacc = req.body.parentaccount;
+    let webs = req.body.website;
+    let accountcat = req.body.accountcategory;
+    let vert = req.body.vertical;
+    let count = req.body.country;
+    let cit = req.body.city;
+    let stat = req.body.state;
+    let own = req.body.owner;
+
+    let query = "UPDATE `account` SET `name` = '" + nam + "', `prospect` = '" + prosp + "', `parentaccount` = '" + parentacc + "', `website` = '" + webs + "',`accountcategory` = '" + accountcat +"', `vertical` = '" + vert +"',`country` = '" + count +"',`city` = '" + cit +"',`state` = '" + stat+"',`owner` = '"+ own +"' WHERE `id` = '" + Sid + "'";
+//console.log(query);
+    db.query(query, (err, result) => {
+        //console.log(err);
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.redirect('/home');
+    });
+};
+exports.recorddisplay = function (req, res) {
+
+      // console.log("hello");
+   
+    
+    var Sid= req.params.i;
+    //console.log(Sid);
+    let query='select * from account where id="'+Sid+'" '; 
+   // console.log(query);
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+               // console.log(result);
+    });
+
+};
+exports.deletedisplayaccount = function (req, res) {
+
+    // console.log("hello");
+ 
+  
+  var Sid= req.params.i;
+  //console.log(Sid); 
+  let query='select * from account where id="'+Sid+'" '; 
+ console.log(query);
+  db.query(query, (err, result) => {
+      if (err) {
+          return res.status(500).send(err);
+      }
+      res.status(200).json(result);
+              console.log(result);
+  });
+
+};
+exports.deleteaccount = function (req, res) {
+
+    let Sid = req.params.i;
+    let deleteUserQuery = 'DELETE FROM account WHERE id = "' + Sid + '"';
+//console.log(deleteUserQuery);
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+
+
+}
+
+
+
+
 exports.getOpportunityPage = function (req, res) {
     let query1 = "select * from opportunities order by id ASC";
-
-
-
     db.query(query1, (err, result2) => {
         if (err) {
             res.redirect('/');
@@ -269,8 +493,6 @@ exports.getOpportunityPage = function (req, res) {
     });
 },
     exports.addOpportunity = function (req, res) {
-
-       
         let message = '';
         let Name = req.body.oppName;
         let Account = req.body.Accountopp;
@@ -278,28 +500,88 @@ exports.getOpportunityPage = function (req, res) {
         let Source = req.body.Source;
         let Exceptedvalue = req.body.Exceptedvalue;
         let StartDate = req.body.StartDate;
-
         let ClosingDate = req.body.ClosingDate;
         let SalesCycle = req.body.SalesCycle;
         let Salesphase = req.body.Salesphase;
-
         let Probability = req.body.Probability;
         let ForecastCategory = req.body.ForecastCategory;
         let Category = req.body.convertcategory;
         let Owner = req.body.Owneropp
-
-
-
-        let query = "INSERT INTO `opportunities` (name,account,primarycontact,source,exceptedvalue,startdate,closedate,salescycle,salesphase,probability,forecastcategory,category,owner) VALUES ('" +
+        let query = "INSERT INTO `socka`.`opportunities`(name,account,primarycontact,source,exceptedvalue,startdate,closedate,salescycle,salesphase,probability,forecastcategory,category,owner) VALUES ('" +
             Name + "', '" + Account + "','" + PrimaryContact + "', '" + Source + "','" + Exceptedvalue +
             "','" + StartDate + "','" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','" +
             Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')";
-			
+        console.log(query)
         db.query(query, (err, result) => {
+            console.log(err)
             if (err) {
+                //console.log("error");
                 return res.status(500).send(err);
             }
             res.redirect("/home")
+            console.log(result);
         });
 
     };
+
+
+    exports.updateOpportunity  = function (req, res) {
+        console.log("updaterecord");       
+        var Sid= req.body.id;         
+        let Name = req.body.name;
+        let Account = req.body.account;
+        let PrimaryContact = req.body.primarycontact;
+        let Source = req.body.source;
+        let Exceptedvalue = req.body.exceptedvalue;
+        let StartDate = req.body.startdate;       
+        let ClosingDate = req.body.closedate;
+        let SalesCycle = req.body.salescycle;
+        let Salesphase = req.body.salesphase;
+        let Probability = req.body.probability;
+        let ForecastCategory = req.body.forecastcategory;
+        let Category = req.body.category;
+        let Owner = req.body.owner
+        let query = "UPDATE `opportunities` SET  `name` = '" + Name + "', `account` = '" + Account + "', `primarycontact` = '" + PrimaryContact + "',`source` = '" + Source + "',`exceptedvalue` = '" + Exceptedvalue +"',`startdate` = '" + StartDate + "',`closedate` = '" + ClosingDate + "',`salescycle` = '" + SalesCycle +"',`salesphase` = '" + Salesphase +"',`probability` = '" + Probability +"',`forecastcategory` = '" + ForecastCategory+"',`category` = '"+ Category +"',`owner` = '" + Owner +"' WHERE `id` = '" + Sid + "'";
+    console.log(query);
+        db.query(query, (err, result) => {
+            console.log(err);
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect('/home');
+        });
+    };
+
+
+exports.opportunitydisplay = function (req, res) {
+    var Sid = req.params.i;
+    let query = 'select * from opportunities where id="' + Sid + '" ';
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+exports.deleteopportunity = function (req, res) {
+
+    let Sid = req.params.i;
+    let deleteUserQuery = 'DELETE FROM opportunities WHERE id = "' + Sid + '"';
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+}
+exports.deletedisplay = function (req, res) {
+
+    let Sid = req.params.i;
+    let deleteUserQuery = 'DELETE FROM opportunities WHERE id = "' + Sid + '"';
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+}
