@@ -1,4 +1,4 @@
-var app = require('purplecheerio-wave');
+var app = require('cirruswave');
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
